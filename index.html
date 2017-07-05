@@ -19,10 +19,19 @@
 					<img class="delete" src="assets/images/delete-icon.png">
 				</div>
 			</li> -->
-
+			<script type="text/template" id="todo-template">
+				<div class="todo">
+					<img class='toggle' src="assets/images/completed-icon.png">
+					<p>{{title}}</p>
+					<img class="delete" src="assets/images/delete-icon.png">
+				</div>
+			</script>
 
 		</div>
 	</div>
+
+	<!-- Mustache Templates -->
+	<script src="libs/mustache.min.js"></script>
 
 	<!--Jquery, Underscore and Backbone-->
 	<script src="libs/jquery-3.2.1.min.js"></script>

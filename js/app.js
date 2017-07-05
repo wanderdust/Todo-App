@@ -31,17 +31,20 @@ $(function() {
 			this.listenTo(this.model, 'change:completed', this.toggleView);
 		},
 
+		template: $('#todo-template').html(),
+
 		events: {
 			'click img.toggle': 'toggleModel'
 		},
 
 		render: function() {
-			this.$el.append(`
-				<div class="todo">
-					<img class='toggle' src="assets/images/completed-icon.png">
-					<p>${this.model.get('title')}</p>
-					<img class="delete" src="assets/images/delete-icon.png">
-				</div>`);
+			// this.$el.append(`
+			// 	<div class="todo">
+			// 		<img class='toggle' src="assets/images/completed-icon.png">
+			// 		<p>${this.model.get('title')}</p>
+			// 		<img class="delete" src="assets/images/delete-icon.png">
+			// 	</div>`);
+			this.$el.html(Mustache.to_html(this.template, this.model.attributes));
 			return this;
 		},
 
