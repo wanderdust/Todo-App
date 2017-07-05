@@ -21,11 +21,12 @@ body {
 
 #todo-input {
 	height: 40px;
-	width: 250px;
+	width: 70%;
 	font-size: 20px;
 	border-radius: 2px;
 	border: solid gray 0.1px;
 	margin-bottom: 40px;
+	padding-left: 15px;
 }
 
 #todo-list {
@@ -48,7 +49,7 @@ body {
 
 #todo-list li div.todo img {
 	height: 25px;
-	opacity: 0.2;
+	opacity: 0.1;
 }
 
 #todo-list li div.todo img.completed {
@@ -62,9 +63,10 @@ body {
 }
 
 #todo-list li div.todo img.delete {
+	height: 15px;
 	position: absolute;
 	right: 5px;
-	top: 5px;
+	top: 10px;
 	opacity: 0;
 }
 
