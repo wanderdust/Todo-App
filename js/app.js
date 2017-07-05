@@ -9,8 +9,6 @@ $(function() {
 			this.save({
 				completed: !this.get("completed")
 			});
-
-			console.log(this.get('completed'))
 		}
 	});
 
@@ -26,9 +24,11 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, 'render', 'toggleModel', 'toggleView');
 
+			this.completed = this.model.get('completed');
 			this.$todo = this.$('div.todo');
 
 			this.listenTo(this.model, 'change:completed', this.toggleView);
+			this.listenTo(this.model, 'change', this.render);
 		},
 
 		template: $('#todo-template').html(),
@@ -38,12 +38,6 @@ $(function() {
 		},
 
 		render: function() {
-			// this.$el.append(`
-			// 	<div class="todo">
-			// 		<img class='toggle' src="assets/images/completed-icon.png">
-			// 		<p>${this.model.get('title')}</p>
-			// 		<img class="delete" src="assets/images/delete-icon.png">
-			// 	</div>`);
 			this.$el.html(Mustache.to_html(this.template, this.model.attributes));
 			return this;
 		},
@@ -55,9 +49,9 @@ $(function() {
 
 		toggleView: function() {
 			if(this.model.get('completed')){
-				return this.$todo.addClass('completed');
+				return true;
 			};
-			return this.$todo.removeClass('completed');
+			return false;
 		}
 
 	});

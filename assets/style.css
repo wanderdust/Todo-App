@@ -56,6 +56,10 @@ body {
 	opacity: 1;
 }
 
+#todo-list li div.todo-completed p {
+	text-decoration-line: line-through;
+}
+
 #todo-list li div.todo p {
 	font-size: 25px;
 	margin: 5px;

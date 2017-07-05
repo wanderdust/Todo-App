@@ -11,17 +11,9 @@
 		<input id="todo-input" type="text" placeholder=" Write your task here">
 
 		<div id="todo-list">
-		<!-- Sample Todo item -->
-			<!-- <li>
-				<div class="todo">
-					<img class='toggle' src="assets/images/completed-icon.png">
-					<p>Do my homework</p>
-					<img class="delete" src="assets/images/delete-icon.png">
-				</div>
-			</li> -->
 			<script type="text/template" id="todo-template">
-				<div class="todo">
-					<img class='toggle' src="assets/images/completed-icon.png">
+				<div class="todo {{#completed}}todo-completed{{/completed}}">
+					<img class="toggle {{#completed}}completed{{/completed}}" src="assets/images/completed-icon.png">
 					<p>{{title}}</p>
 					<img class="delete" src="assets/images/delete-icon.png">
 				</div>
