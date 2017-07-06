@@ -8,10 +8,12 @@ body {
 }
 
 #container {
+	position: relative;
 	text-align: center;
 	margin: 0 auto;
 	height: 90%;
 	width: 60%;
+	min-width: 500px;
 	border: solid;
 }
 
@@ -77,4 +79,38 @@ body {
 
 #todo-list li div.todo:hover img.delete {
 	opacity: 1;
+}
+
+#container footer {
+	height: 50px;
+	width: 100%;
+	border-top: solid 0.2px;
+	position: absolute;
+	bottom: 0px;
+}
+
+#container footer ul {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+#container footer ul li {
+	display:inline;
+	padding: 2%;
+}
+
+#container footer ul li:first-child {
+	display:inline;
+	padding-right: 10%;
+}
+
+#container footer ul li:last-child {
+	display:inline;
+	padding-left: 10%;
+}
+
+#container footer ul li a, p {
+	display: inline-block;
 }
