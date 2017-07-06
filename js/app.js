@@ -13,7 +13,7 @@ $(function() {
 			});
 		}
 	});
-	
+
 
 	let TodoList = Backbone.Firebase.Collection.extend({
 		model: Todo,
@@ -70,17 +70,22 @@ $(function() {
 	let ListView = Backbone.View.extend({
 		el: $('body'),
 
+		statsTemplate: $('#stats-template').html(),
+
 		initialize: function() {
-			_.bindAll(this, 'appendTodo', 'createOnEnter')
+			_.bindAll(this, 'appendTodo', 'createOnEnter', 'render')
 
 			this.$input = $('#todo-input');
-			this.$todoList = $('#todo-list')
+			this.$todoList = $('#todo-list');
+			this.$footer = $('footer');
 
 			this.todoCollection = new TodoList();
 
 			// Saved models re-render automatically because it triggers 'add' event
 			this.listenTo(this.todoCollection, 'add', this.appendTodo);
 			this.listenTo(this.todoCollection, 'remove',)
+
+			this.render();
 
 		},
 
@@ -89,7 +94,7 @@ $(function() {
 		},
 
 		render: function() {
-		
+			this.$footer.html(Mustache.to_html(this.statsTemplate /*, the object here*/));
 		},
 
 		// Creates new todo and adds it to the collection.
