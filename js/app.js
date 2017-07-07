@@ -14,10 +14,16 @@ $(function() {
 		}
 	});
 
-
 	let TodoList = Backbone.Firebase.Collection.extend({
 		model: Todo,
-		url: "https://backbone-todo-d8c34.firebaseio.com"
+		url: "https://backbone-todo-d8c34.firebaseio.com",
+
+		active: function() {
+	      return this.filter(function(todo) {
+	        return !todo.get('completed');
+	      });
+    },
+
 	});
 
 
@@ -73,17 +79,19 @@ $(function() {
 		statsTemplate: $('#stats-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'appendTodo', 'createOnEnter', 'render')
+			_.bindAll(this, 'appendTodo', 'createOnEnter', 'render', 'appendAll', 'showCompleted', 'showActive', 'showAll',
+				'clearCompleted')
 
 			this.$input = $('#todo-input');
 			this.$todoList = $('#todo-list');
 			this.$footer = $('footer');
+			this.$completed = $('.todo-completed')
 
 			this.todoCollection = new TodoList();
 
 			// Saved models re-render automatically because it triggers 'add' event
 			this.listenTo(this.todoCollection, 'add', this.appendTodo);
-			this.listenTo(this.todoCollection, 'remove',)
+			this.listenTo(this.todoCollection, 'reset', this.appendAll);
 
 			this.render();
 
@@ -91,9 +99,13 @@ $(function() {
 
 		events: {
 			'keypress #todo-input': 'createOnEnter',
+			'click #show-completed': 'showCompleted',
+			'click #show-active': 'showActive',
+			'click #show-all': 'showAll',
+			'click #clear-completed': 'clearCompleted'
 		},
 
-		render: function() {
+		render: function(model) {
 			this.$footer.html(Mustache.to_html(this.statsTemplate /*, the object here*/));
 		},
 
@@ -105,6 +117,7 @@ $(function() {
 					title: this.$input.val(),
 					completed: false
 				})
+				this.$input.val("");
 			};
 		},
 
@@ -114,7 +127,27 @@ $(function() {
 				model: todoModel
 			});
 			this.$todoList.append(todoView.render().el);
-			this.$input.val("");
+		},
+
+		appendAll: function(collection) {
+			this.$todoList.html("");
+			collection.forEach(this.appendTodo);
+		},
+
+		showCompleted: function() {
+			this.appendAll(this.todoCollection.where({completed: true}));
+		},
+
+		showActive: function () {
+			this.appendAll(this.todoCollection.where({completed: false}));
+		},
+
+		showAll: function() {
+			this.appendAll(this.todoCollection)
+		},
+
+		clearCompleted: function() {
+			this.todoCollection.reset(this.todoCollection.active())
 		}
 	})
 
