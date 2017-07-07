@@ -92,6 +92,7 @@ $(function() {
 			// Saved models re-render automatically because it triggers 'add' event
 			this.listenTo(this.todoCollection, 'add', this.appendTodo);
 			this.listenTo(this.todoCollection, 'reset', this.appendAll);
+			this.listenTo(this.todoCollection, 'all', this.render)
 
 			this.render();
 
@@ -105,8 +106,9 @@ $(function() {
 			'click #clear-completed': 'clearCompleted'
 		},
 
-		render: function(model) {
-			this.$footer.html(Mustache.to_html(this.statsTemplate /*, the object here*/));
+		render: function() {
+			this.remaining = this.todoCollection.active().length;
+			this.$footer.html(Mustache.to_html(this.statsTemplate, this));
 		},
 
 		// Creates new todo and adds it to the collection.
