@@ -80,7 +80,7 @@ $(function() {
 
 		initialize: function() {
 			_.bindAll(this, 'appendTodo', 'createOnEnter', 'render', 'appendAll', 'showCompleted', 'showActive', 'showAll',
-				'clearCompleted')
+				'clearCompleted', 'filter')
 
 			this.$input = $('#todo-input');
 			this.$todoList = $('#todo-list');
@@ -91,6 +91,8 @@ $(function() {
 
 			// Saved models re-render automatically because it triggers 'add' event
 			this.listenTo(this.todoCollection, 'add', this.appendTodo);
+			this.listenTo(this.todoCollection, 'add', this.filter);
+			this.listenTo(this.todoCollection, 'change:completed', this.filter)
 			this.listenTo(this.todoCollection, 'reset', this.appendAll);
 			this.listenTo(this.todoCollection, 'all', this.render)
 
@@ -138,19 +140,33 @@ $(function() {
 
 		showCompleted: function() {
 			this.appendAll(this.todoCollection.where({completed: true}));
+			this.currentView = 'completed';
 		},
 
 		showActive: function () {
 			this.appendAll(this.todoCollection.where({completed: false}));
+			this.currentView = 'active';
 		},
 
 		showAll: function() {
-			this.appendAll(this.todoCollection)
+			this.appendAll(this.todoCollection);
+			this.currentView = 'all';
 		},
 
 		clearCompleted: function() {
-			this.todoCollection.reset(this.todoCollection.active())
+			this.todoCollection.reset(this.todoCollection.active());
+			this.currentView = 'all';
+		},
+
+		filter: function() {
+			if(this.currentView === 'completed') {
+				return this.showCompleted();
+			}else if(this.currentView === 'active') {
+				return this.showActive();
+			}
+			return this.showAll();
 		}
+
 	})
 
 	let listView = new ListView();
