@@ -4,6 +4,11 @@
       margin:0;
     }
 
+    #login {
+    	padding: 0;
+    	margin: 0;
+    }
+
     body {
       padding:0;
     }
@@ -17,6 +22,35 @@ body {
 	font-family: 'Bree Serif', serif;
 }
 
+/*LOGIN*/
+
+#login {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 999;
+	background: rgba(255, 255, 255, .7);
+}
+
+#login-box {
+	min-height: 50px;
+	width: 50%;
+	border:solid;
+	margin: auto;
+	margin-top: 400px;
+	text-align: center;
+}
+
+#login-box img {
+	text-align: center;
+	width: 90%;
+	height: auto;
+	cursor: pointer;
+}
+
+/*APP*/
 #container {
 	position: relative;
 	text-align: center;
