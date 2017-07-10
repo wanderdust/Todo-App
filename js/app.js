@@ -89,13 +89,20 @@ $(function() {
 
 			this.todoCollection = new TodoList();
 
-			// Saved models re-render automatically because it triggers 'add' event
-			this.listenTo(this.todoCollection, 'add', this.appendTodo);
-			this.listenTo(this.todoCollection, 'add', this.filter);
-			this.listenTo(this.todoCollection, 'change:completed', this.filter)
-			this.listenTo(this.todoCollection, 'reset', this.appendAll);
+
 			this.listenTo(this.todoCollection, 'all', this.render)
 
+			// Saved models re-render automatically because of fetch from server delay.
+			this.listenTo(this.todoCollection, 'add', this.appendTodo);
+
+			// Listens to any changes on the collection to filter if necessary.
+			this.listenTo(this.todoCollection, 'add', this.filter);
+			this.listenTo(this.todoCollection, 'change:completed', this.filter)
+
+			// Listens when ClearAll updates collection to re-render the view.
+			this.listenTo(this.todoCollection, 'reset', this.appendAll);
+
+			
 			this.render();
 
 		},
@@ -133,31 +140,37 @@ $(function() {
 			this.$todoList.append(todoView.render().el);
 		},
 
+		// Updates the whole list.
 		appendAll: function(collection) {
 			this.$todoList.html("");
 			collection.forEach(this.appendTodo);
 		},
 
+		// Function to sort by 'completed' todos.
 		showCompleted: function() {
 			this.appendAll(this.todoCollection.where({completed: true}));
 			this.currentView = 'completed';
 		},
 
+		// Function to sort by 'active' todos.
 		showActive: function () {
 			this.appendAll(this.todoCollection.where({completed: false}));
 			this.currentView = 'active';
 		},
 
+		// Function to sort by 'all' todos.
 		showAll: function() {
 			this.appendAll(this.todoCollection);
 			this.currentView = 'all';
 		},
 
+		// Clears all the completed todos.
 		clearCompleted: function() {
 			this.todoCollection.reset(this.todoCollection.active());
 			this.currentView = 'all';
 		},
 
+		// Keeps track of the current filter to be used on any new changes.
 		filter: function() {
 			if(this.currentView === 'completed') {
 				return this.showCompleted();
