@@ -82,6 +82,8 @@ $(function() {
 			_.bindAll(this, 'appendTodo', 'createOnEnter', 'render', 'appendAll', 'showCompleted', 'showActive', 'showAll',
 				'clearCompleted', 'filter')
 
+			this.loginView = new LoginView();
+
 			this.$input = $('#todo-input');
 			this.$todoList = $('#todo-list');
 			this.$footer = $('footer');
@@ -102,7 +104,7 @@ $(function() {
 			// Listens when ClearAll updates collection to re-render the view.
 			this.listenTo(this.todoCollection, 'reset', this.appendAll);
 
-			
+
 			this.render();
 
 		},
@@ -118,6 +120,7 @@ $(function() {
 		render: function() {
 			this.remaining = this.todoCollection.active().length;
 			this.$footer.html(Mustache.to_html(this.statsTemplate, this));
+			return this;
 		},
 
 		// Creates new todo and adds it to the collection.
@@ -182,5 +185,42 @@ $(function() {
 
 	})
 
+	let LoginView = Backbone.View.extend ({
+		el: $('body'),
+
+		loginTemplate: $('#login-template').html(),
+
+		initialize: function() {
+			_.bindAll(this, 'render')
+			this.$login = this.el;
+			this.render();
+		},
+
+		events: {
+			'click #button-login' : 'newUser'
+		},
+
+		render: function() {
+			this.$el.html(Mustache.to_html(this.loginTemplate, this));
+			return this;
+		},
+
+		newUser: function() {
+			let email = this.$('#existing-email').val();
+			let password = this.$('#existing-password').val();
+
+			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+  			// Handle Errors here.
+  			let errorCode = error.code;
+  			let errorMessage = error.message;
+  			// ...
+			});
+		}
+
+	});
+
+	let provider = new firebase.auth.GoogleAuthProvider();
+
 	let listView = new ListView();
 })
+
