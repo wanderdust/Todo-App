@@ -7,7 +7,9 @@
 	<meta name="viewport" content="width=device-width" />
 </head>
 <body>
+<div id="login-container">
 	<script type="text/template" id="login-template">
+	{{#showLogin}}
 		<div id="login">
 			<div id="login-box">
 				<h2>Login to continue</h2>
@@ -19,13 +21,15 @@
 				<h2>-or-</h2>
 				<h2>Register</h2>
 				<div id="new-user">
-					<input type="text" placeholder="example@example.com">
-					<input type="password" placeholder="password">
+					<input type="text" placeholder="example@example.com" id="new-email">
+					<input type="password" placeholder="password" id="new-password">
 					<input type="button" value="Register" class="button" id="button-register">
 				</div>
 			</div>
-		</div>	
+		<div>
+	{{/showLogin}}
 	</script>
+	</div>
 
 	<div id="container">
 		<h1 id="header">Your To-do List</h1>

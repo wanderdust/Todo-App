@@ -186,18 +186,20 @@ $(function() {
 	})
 
 	let LoginView = Backbone.View.extend ({
-		el: $('body'),
+		el: $('#login-container'),
 
 		loginTemplate: $('#login-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'render')
-			this.$login = this.el;
+			_.bindAll(this, 'render', 'newUser');
+			this.showLogin = true;
+			this.$login = this.$('#login');
 			this.render();
 		},
 
 		events: {
-			'click #button-login' : 'newUser'
+			'click #button-login': 'loginUser',
+			'click #button-register' : 'newUser'
 		},
 
 		render: function() {
@@ -206,15 +208,29 @@ $(function() {
 		},
 
 		newUser: function() {
-			let email = this.$('#existing-email').val();
-			let password = this.$('#existing-password').val();
+			let email = this.$('#new-email').val();
+			let password = this.$('#new-password').val();
 
 			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
   			// Handle Errors here.
-  			let errorCode = error.code;
-  			let errorMessage = error.message;
+	  			return console.log(`Error registering ${email}`)
   			// ...
 			});
+			this.showLogin = false;
+			this.render()
+		},
+
+		loginUser: function() {
+			let email = this.$('#existing-email').val();
+			let password = this.$('#existing-password').val();
+
+			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+		  	// Handle Errors here.
+		  		return console.log(`Error login ${email}`);
+		  	// ...
+			});
+			this.showLogin = false;
+			this.render()
 		}
 
 	});
