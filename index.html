@@ -4,6 +4,7 @@
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="assets/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
+	<meta name="viewport" content="width=device-width" />
 </head>
 <body>
 	<div id="container">
@@ -25,14 +26,14 @@
 					<li>
 						<p>{{remaining}} items left</p>
 					</li>
-					<li>
-						<a href="#/all" id="show-all">All</a>
+					<li class="filter" id="show-all">
+						<a href="#/all">All</a>
 					</li>
-					<li>
-						<a href="#/active" id="show-active">Active</a>
+					<li class="filter" id="show-active">
+						<a href="#/active">Active</a>
 					</li>
-					<li>
-						<a href="#/completed" id="show-completed">Completed</a>
+					<li class="filter" id="show-completed">
+						<a href="#/completed">Completed</a>
 					</li>
 					<li>
 						<a href="#" id="clear-completed">Clear completed</a>
