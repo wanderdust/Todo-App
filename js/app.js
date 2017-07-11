@@ -191,9 +191,9 @@ $(function() {
 		loginTemplate: $('#login-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'render', 'newUser');
+			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render');
+
 			this.showLogin = true;
-			this.$login = this.$('#login');
 			this.render();
 		},
 
@@ -208,34 +208,58 @@ $(function() {
 		},
 
 		newUser: function() {
-			let email = this.$('#new-email').val();
+			this.email = this.$('#new-email').val();
 			let password = this.$('#new-password').val();
 
-			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-  			// Handle Errors here.
-	  			return console.log(`Error registering ${email}`)
-  			// ...
-			});
-			this.showLogin = false;
-			this.render()
+			firebase.auth().createUserWithEmailAndPassword(this.email, password).then(function(user) {
+			    let currentUser = firebase.auth().currentUser;
+			    this.showLogin = false;
+			    this.render();
+			    console.log('new user created with e-mail ' + this.email)
+			    // logUser(user); // Optional
+			}, function(error) {
+			    // Handle Errors here.
+			    console.log('error creating user')
+			}, this);
+
+			// function logUser(user) {
+			    // let ref = firebase.database().ref("users");
+			    // let obj = {
+			    //     "user": user,
+			    //     ...
+			    // };
+			    // ref.push(obj); // or however you wish to update the node
+			// }
 		},
 
 		loginUser: function() {
-			let email = this.$('#existing-email').val();
+			this.email = this.$('#existing-email').val();
 			let password = this.$('#existing-password').val();
 
-			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-		  	// Handle Errors here.
-		  		return console.log(`Error login ${email}`);
-		  	// ...
-			});
-			this.showLogin = false;
-			this.render()
+			firebase.auth().signInWithEmailAndPassword(this.email, password).then(function(user) {
+			    let currentUser = firebase.auth().currentUser;
+			    this.showLogin = false;
+			    this.render();
+			    console.log('signed in')
+			    // logUser(user); // Optional
+			}, function(error) {
+			    // Handle Errors here.
+			    console.log('error signin in')
+			}, this);
+			
+
+			// function logUser(user) {
+			    // let ref = firebase.database().ref("users");
+			    // let obj = {
+			    //     "user": user,
+			    //     ...
+			    // };
+			    // ref.push(obj); // or however you wish to update the node
+			// }
+
 		}
 
 	});
-
-	let provider = new firebase.auth.GoogleAuthProvider();
 
 	let listView = new ListView();
 })
