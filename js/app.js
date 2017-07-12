@@ -208,6 +208,7 @@ $(function() {
 			return this;
 		},
 
+		// Creates a new user.
 		newUser: function() {
 			// Gets the value of the email and password from inputs.
 			this.email = this.$('#new-email').val();
@@ -216,66 +217,70 @@ $(function() {
 			// Creates the new user. Throws error if error.
 			firebase.auth().createUserWithEmailAndPassword(this.email, password).then(function(user) {
 			    let userCurrent = firebase.auth().currentUser;
-			    logUser(userCurrent)// Optional
+			    logUser(userCurrent)
 
 			    this.showLogin = false;
 			    this.render();
 
 			}, function(error) {
-			    // Handle Errors here.
-			    console.log('error creating user')
+			    console.log('Error creating user')
 			}, this);
 
 			// Checks if User is Authenticated to create new data and begin with the app.
 			function logUser(userCurrent) {
 			    
 				if (userCurrent) {
-					console.log(`new user created with e-mail: ${userCurrent.email}
-						, and ID: ${userCurrent.uid}`);
-
+					// Creates new Data for user.
 					function writeUserData(userId) {
-						firebase.database().ref(userId).set({
-							user: userCurrent.email
-						});
-					}
+						firebase.database().ref(userId).set({});
+					};
 
 					writeUserData(userCurrent.uid);
+
 					userId = userCurrent.uid;
 
+					// Executes the App.
 					this.listView = new ListView();
 					
-
+					console.log(`New user created with e-mail: ${userCurrent.email}`);
 				} else {
-				    // No user is signed in.
-				    console.log('error')
-				  }
+				    console.log('User is not signed in')
+				}
 			    
 			}
 		},
 
+		// Logs in an existing user.
 		loginUser: function() {
+			// Gets the value of the email and password from inputs.
 			this.email = this.$('#existing-email').val();
 			let password = this.$('#existing-password').val();
 
+			// Authenticates the existing User.
 			firebase.auth().signInWithEmailAndPassword(this.email, password).then(function(user) {
-			    let currentUser = firebase.auth().currentUser;
+			    let userCurrent = firebase.auth().currentUser;
+			    logUser(userCurrent);
+
 			    this.showLogin = false;
 			    this.render();
-			    console.log('signed in')
-			    // logUser(user); // Optional
+			    
 			}, function(error) {
-			    // Handle Errors here.
-			    console.log('error signin in')
+			    console.log('error trying to log in')
 			}, this);
 			
+			// Checks if User is Authenticated to direct client to its data.
+			function logUser(userCurrent) {
+				if (userCurrent) {
+					userId = userCurrent.uid;
 
-			// function logUser(user) {
-			//     let ref = new Firebase("https://backbone-todo-d8c34.firebaseio.com");
-
-			//     ref.child("users").child(users.uid).set({
-			//      	test: "test-works"
-			//     });
-			// }
+					// Executes the App.
+					this.listView = new ListView();
+					
+					console.log(`User with e-mail: ${userCurrent.email} is loged in.`);
+				} else {
+				    console.log('User is not loged in')
+				}
+			}
 
 		}
 
