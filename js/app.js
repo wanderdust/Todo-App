@@ -1,4 +1,5 @@
 $(function() {
+	let userId = undefined;
 
 	let Todo = Backbone.Model.extend({
 		defaults: {
@@ -16,7 +17,9 @@ $(function() {
 
 	let TodoList = Backbone.Firebase.Collection.extend({
 		model: Todo,
-		url: "https://backbone-todo-d8c34.firebaseio.com",
+		url: function() {
+			return `https://backbone-todo-d8c34.firebaseio.com/`+ userId
+		} ,
 
 		active: function() {
 	      return this.filter(function(todo) {
@@ -82,7 +85,6 @@ $(function() {
 			_.bindAll(this, 'appendTodo', 'createOnEnter', 'render', 'appendAll', 'showCompleted', 'showActive', 'showAll',
 				'clearCompleted', 'filter')
 
-			this.loginView = new LoginView();
 
 			this.$input = $('#todo-input');
 			this.$todoList = $('#todo-list');
@@ -90,7 +92,6 @@ $(function() {
 			this.$completed = $('.todo-completed')
 
 			this.todoCollection = new TodoList();
-
 
 			this.listenTo(this.todoCollection, 'all', this.render)
 
@@ -199,7 +200,7 @@ $(function() {
 
 		events: {
 			'click #button-login': 'loginUser',
-			'click #button-register' : 'newUser'
+			'click #button-register' : 'newUser',
 		},
 
 		render: function() {
@@ -208,28 +209,48 @@ $(function() {
 		},
 
 		newUser: function() {
+			// Gets the value of the email and password from inputs.
 			this.email = this.$('#new-email').val();
 			let password = this.$('#new-password').val();
 
+			// Creates the new user. Throws error if error.
 			firebase.auth().createUserWithEmailAndPassword(this.email, password).then(function(user) {
-			    let currentUser = firebase.auth().currentUser;
+			    let userCurrent = firebase.auth().currentUser;
+			    logUser(userCurrent)// Optional
+
 			    this.showLogin = false;
 			    this.render();
-			    console.log('new user created with e-mail ' + this.email)
-			    // logUser(user); // Optional
+
 			}, function(error) {
 			    // Handle Errors here.
 			    console.log('error creating user')
 			}, this);
 
-			// function logUser(user) {
-			    // let ref = firebase.database().ref("users");
-			    // let obj = {
-			    //     "user": user,
-			    //     ...
-			    // };
-			    // ref.push(obj); // or however you wish to update the node
-			// }
+			// Checks if User is Authenticated to create new data and begin with the app.
+			function logUser(userCurrent) {
+			    
+				if (userCurrent) {
+					console.log(`new user created with e-mail: ${userCurrent.email}
+						, and ID: ${userCurrent.uid}`);
+
+					function writeUserData(userId) {
+						firebase.database().ref(userId).set({
+							user: userCurrent.email
+						});
+					}
+
+					writeUserData(userCurrent.uid);
+					userId = userCurrent.uid;
+
+					this.listView = new ListView();
+					
+
+				} else {
+				    // No user is signed in.
+				    console.log('error')
+				  }
+			    
+			}
 		},
 
 		loginUser: function() {
@@ -249,18 +270,17 @@ $(function() {
 			
 
 			// function logUser(user) {
-			    // let ref = firebase.database().ref("users");
-			    // let obj = {
-			    //     "user": user,
-			    //     ...
-			    // };
-			    // ref.push(obj); // or however you wish to update the node
+			//     let ref = new Firebase("https://backbone-todo-d8c34.firebaseio.com");
+
+			//     ref.child("users").child(users.uid).set({
+			//      	test: "test-works"
+			//     });
 			// }
 
 		}
 
 	});
 
-	let listView = new ListView();
+	let loginView = new LoginView();
 })
 
