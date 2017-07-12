@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width" />
 </head>
 <body>
-<div id="login-container">
+<div id="login-container" class="container">
 	<script type="text/template" id="login-template">
 	{{#showLogin}}
 		<div id="login">
@@ -20,9 +20,13 @@
 				</div>
 				<h2>-or-</h2>
 				<h2>Register</h2>
+				{{#addNewPassword}}
+				<p id="add-password">Passwords don't match</p>
+				{{/addNewPassword}}
 				<div id="new-user">
 					<input type="text" placeholder="example@example.com" id="new-email">
 					<input type="password" placeholder="password" id="new-password">
+					<input type="password" placeholder="repeat-password" id="repeat-password">
 					<input type="button" value="Register" class="button" id="button-register">
 				</div>
 			</div>
@@ -31,7 +35,7 @@
 	</script>
 	</div>
 
-	<div id="container">
+	<div id="container" class="container">
 		<h1 id="header">Your To-do List</h1>
 		<input id="todo-input" type="text" placeholder=" Write your task here">
 

@@ -192,7 +192,7 @@ $(function() {
 		loginTemplate: $('#login-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render');
+			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword');
 
 			this.showLogin = true;
 			this.render();
@@ -211,20 +211,26 @@ $(function() {
 		// Creates a new user.
 		newUser: function() {
 			// Gets the value of the email and password from inputs.
-			this.email = this.$('#new-email').val();
+			let email = this.$('#new-email').val();
 			let password = this.$('#new-password').val();
+			let repeatPassword = this.$('#repeat-password').val();
 
 			// Creates the new user. Throws error if error.
-			firebase.auth().createUserWithEmailAndPassword(this.email, password).then(function(user) {
-			    let userCurrent = firebase.auth().currentUser;
-			    logUser(userCurrent)
+			if(password === repeatPassword) {
+				firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+					let userCurrent = firebase.auth().currentUser;
+				    	logUser(userCurrent);
 
-			    this.showLogin = false;
-			    this.render();
+				    	this.showLogin = false;
+				    	this.render();
 
-			}, function(error) {
-			    console.log('Error creating user')
-			}, this);
+				}, function(error) {
+				    console.log('Error creating user')
+				}, this);
+			}else {
+				this.newPassword();
+				console.log("Passwords don't match")
+			}
 
 			// Checks if User is Authenticated to create new data and begin with the app.
 			function logUser(userCurrent) {
@@ -253,11 +259,11 @@ $(function() {
 		// Logs in an existing user.
 		loginUser: function() {
 			// Gets the value of the email and password from inputs.
-			this.email = this.$('#existing-email').val();
+			let email = this.$('#existing-email').val();
 			let password = this.$('#existing-password').val();
 
 			// Authenticates the existing User.
-			firebase.auth().signInWithEmailAndPassword(this.email, password).then(function(user) {
+			firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
 			    let userCurrent = firebase.auth().currentUser;
 			    logUser(userCurrent);
 
@@ -265,7 +271,7 @@ $(function() {
 			    this.render();
 			    
 			}, function(error) {
-			    console.log('error trying to log in')
+			    console.log('error trying to log in');
 			}, this);
 			
 			// Checks if User is Authenticated to direct client to its data.
@@ -282,6 +288,11 @@ $(function() {
 				}
 			}
 
+		},
+
+		newPassword: function() {
+			this.addNewPassword = true;
+			this.render();
 		}
 
 	});
