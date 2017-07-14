@@ -183,7 +183,6 @@ $(function() {
 			}
 			return this.showAll();
 		}
-
 	})
 
 	let LoginView = Backbone.View.extend ({
@@ -192,7 +191,7 @@ $(function() {
 		loginTemplate: $('#login-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail');
+			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail', 'newUserError');
 
 			this.showLogin = true;
 			this.render();
@@ -308,15 +307,6 @@ $(function() {
 			this.addNewEmail = true;
 			this.errorLogin = error.message;
 			this.render();
-		},
-
-		logout: function() {
-			firebase.auth().signOut().then(function() {
-			  this.showLogin = true;
-			  this.render();
-			}, function(error) {
-			  alert('Error trying to sing out')
-			});
 		}
 
 	});
