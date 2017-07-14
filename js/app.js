@@ -192,7 +192,7 @@ $(function() {
 		loginTemplate: $('#login-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword');
+			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail');
 
 			this.showLogin = true;
 			this.render();
@@ -200,7 +200,7 @@ $(function() {
 
 		events: {
 			'click #button-login': 'loginUser',
-			'click #button-register' : 'newUser',
+			'click #button-register' : 'newUser'
 		},
 
 		render: function() {
@@ -225,7 +225,8 @@ $(function() {
 				    	this.render();
 
 				}, function(error) {
-				    console.log('Error creating user')
+					this.newUserError(error);
+					console.log(error.message)
 				}, this);
 			}else {
 				this.newPassword();
@@ -271,6 +272,7 @@ $(function() {
 			    this.render();
 			    
 			}, function(error) {
+				this.newEmail(error);
 			    console.log('error trying to log in');
 			}, this);
 			
@@ -290,9 +292,31 @@ $(function() {
 
 		},
 
+		newUserError(error) {
+			this.addNewPassword = true;
+			this.errorRegistering = error.message;
+			this.render();
+		},
+
 		newPassword: function() {
 			this.addNewPassword = true;
+			this.errorRegistering = "Passwords don't match"
 			this.render();
+		},
+
+		newEmail: function(error) {
+			this.addNewEmail = true;
+			this.errorLogin = error.message;
+			this.render();
+		},
+
+		logout: function() {
+			firebase.auth().signOut().then(function() {
+			  this.showLogin = true;
+			  this.render();
+			}, function(error) {
+			  alert('Error trying to sing out')
+			});
 		}
 
 	});

@@ -13,21 +13,25 @@
 		<div id="login">
 			<div id="login-box">
 				<h2>Login to continue</h2>
+				{{#addNewEmail}}
+				<p id="add-email" class="login-error">{{errorLogin}}</p>
+				{{/addNewEmail}}
+
 				<div id="existing-user">
 					<input type="text" placeholder="example@example.com" id="existing-email">
 					<input type="password" placeholder="password" id="existing-password">
-					<input type="button" value="Log In" class="button" id="button-login">
+					<input type="button" value="Log In" class="button-login" id="button-login">
 				</div>
 				<h2>-or-</h2>
 				<h2>Register</h2>
 				{{#addNewPassword}}
-				<p id="add-password">Passwords don't match</p>
+				<p id="add-password" class="login-error">{{errorRegistering}}</p>
 				{{/addNewPassword}}
 				<div id="new-user">
 					<input type="text" placeholder="example@example.com" id="new-email">
 					<input type="password" placeholder="password" id="new-password">
 					<input type="password" placeholder="repeat-password" id="repeat-password">
-					<input type="button" value="Register" class="button" id="button-register">
+					<input type="button" value="Register" class="button-login" id="button-register">
 				</div>
 			</div>
 		<div>
@@ -36,6 +40,7 @@
 	</div>
 
 	<div id="container" class="container">
+		<a href="#" id="logout">Logout</a>
 		<h1 id="header">Your To-do List</h1>
 		<input id="todo-input" type="text" placeholder=" Write your task here">
 

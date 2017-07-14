@@ -60,6 +60,12 @@ body {
 	font-size: 15px;
 }
 
+#add-email {
+	margin: 0;
+	color: red;
+	font-size: 15px;
+}
+
 /*APP*/
 #container {
 	position: relative;
@@ -185,4 +191,11 @@ body {
 
 #container footer ul li a, p {
 	display: inline-block;
+}
+
+#logout {
+	position: absolute;
+	right: 20px;
+	text-decoration: none;
+	color: inherit;
 }
