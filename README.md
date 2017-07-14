@@ -2,6 +2,8 @@
 
 Keep track of your to-do's with this app. Includes a simple login so you can access your profile anytime!
 
+Live app:  https://wanderdust.github.io/Todo-App/
+
 Libraries used:
 * Backbone (http://backbonejs.org/)
 * UnderScore (http://underscorejs.org/)
@@ -10,4 +12,4 @@ Libraries used:
 * Mustache (https://mustache.github.io/)
 
 ### ScreenShot
-![ScreenShot](https://wanderdust.github.com/Todo-App/assets/images/ScreenShot.jpg)
+![ScreenShot](https://raw.githubusercontent.com/wanderdust/Todo-App/master/assets/images/ScreenShot.jpg)
