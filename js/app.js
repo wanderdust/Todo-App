@@ -210,7 +210,7 @@ $(function() {
 		// Creates a new user.
 		newUser: function() {
 			// Gets the value of the email and password from inputs.
-			let email = this.$('#new-email').val();
+			let email = this.$('#new-email').val().trim();
 			let password = this.$('#new-password').val();
 			let repeatPassword = this.$('#repeat-password').val();
 
@@ -259,7 +259,7 @@ $(function() {
 		// Logs in an existing user.
 		loginUser: function() {
 			// Gets the value of the email and password from inputs.
-			let email = this.$('#existing-email').val();
+			let email = this.$('#existing-email').val().trim();
 			let password = this.$('#existing-password').val();
 
 			// Authenticates the existing User.
