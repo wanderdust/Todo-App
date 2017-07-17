@@ -61,8 +61,9 @@ body {
 	font-size: 20px;
 }
 
-#login-box .button{
+#login-box .button-login{
 	height: 35px;
+	margin-top: 0;
 }
 
 #add-password{
@@ -122,7 +123,7 @@ body {
 #todo-list li div.todo {
 	position: relative;
 	margin: 0 auto;
-	height: 40px;
+	min-height: 40px;
 	width: 75%;
 	text-align: left;
 }
@@ -149,12 +150,13 @@ body {
 	font-size: 25px;
 	margin: 5px;
 	display: inline;
+	margin-right: 20px;
 }
 
 #todo-list li div.todo img.delete {
 	height: 15px;
 	position: absolute;
-	right: 5px;
+	right: -15px;
 	top: 10px;
 	opacity: 0;
 }
