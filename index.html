@@ -30,7 +30,7 @@
 					{{/addNewEmail}}
 
 					<div id="existing-user">
-						<input type="text" placeholder="example@example.com" id="existing-email" autocorrect="off" autocapitalize="off">
+						<input type="email" name="email" placeholder="example@example.com" id="existing-email" autocorrect="off" autocapitalize="off">
 						<input type="password" placeholder="password" id="existing-password">
 						<input type="button" value="Log In" class="button-login" id="button-login">
 					</div>
@@ -40,7 +40,7 @@
 					<p id="add-password" class="login-error">{{errorRegistering}}</p>
 					{{/addNewPassword}}
 					<div id="new-user">
-						<input type="text" placeholder="example@example.com" id="new-email" autocorrect="off" autocapitalize="off">
+						<input type="email"  name="email" placeholder="example@example.com" id="new-email" autocorrect="off" autocapitalize="off">
 						<input type="password" placeholder="password" id="new-password">
 						<input type="password" placeholder="repeat-password" id="repeat-password">
 						<input type="button" value="Register" class="button-login" id="button-register">
