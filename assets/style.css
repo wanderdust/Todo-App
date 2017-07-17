@@ -77,6 +77,14 @@ body {
 	font-size: 15px;
 }
 
+#logout {
+	display: inline-block;
+	position: absolute;
+	right: 20px;
+	text-decoration: none;
+	color: black;
+}
+
 /*APP*/
 #container {
 	position: relative;

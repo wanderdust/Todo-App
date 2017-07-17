@@ -191,7 +191,7 @@ $(function() {
 		loginTemplate: $('#login-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail', 'newUserError');
+			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail', 'newUserError', 'logout');
 
 			this.showLogin = true;
 			this.render();
@@ -199,7 +199,8 @@ $(function() {
 
 		events: {
 			'click #button-login': 'loginUser',
-			'click #button-register' : 'newUser'
+			'click #button-register' : 'newUser',
+			'click #logout': 'logout'
 		},
 
 		render: function() {
@@ -307,6 +308,17 @@ $(function() {
 			this.addNewEmail = true;
 			this.errorLogin = error.message;
 			this.render();
+		},
+
+		logout: function() {
+			firebase.auth().signOut().then(function() {
+			  this.showLogin = true;
+
+			  console.log('Logout succesful.')
+			  this.render();
+			}, function(error) {
+			  console.log(error.message)
+			}, this);
 		}
 
 	});

@@ -11,6 +11,11 @@
 	<div id="container" class="container">
 		<div id="login-container" class="container">
 		<script type="text/template" id="login-template">
+		{{^showLogin}}
+		<div>
+			<a id="logout" href="#">Logout</a>
+		</div>
+		{{/showLogin}}
 		{{#showLogin}}
 			<div id="login">
 				<div id="login-box">
