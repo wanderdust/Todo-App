@@ -82,8 +82,11 @@ body {
 	display: inline-block;
 	position: absolute;
 	right: 20px;
-	text-decoration: none;
-	color: black;
+	margin-bottom: 0px;
+}
+
+#logout:hover {
+	cursor: pointer;
 }
 
 #logout-message {
