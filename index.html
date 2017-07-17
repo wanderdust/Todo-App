@@ -18,6 +18,11 @@
 		{{/showLogin}}
 		{{#showLogin}}
 			<div id="login">
+			{{#showLogoutMessage}}
+				<div id="logout-message">
+					<p>Logout succesful</p>
+				</div>
+			{{/showLogoutMessage}}
 				<div id="login-box">
 					<h2>Login to continue</h2>
 					{{#addNewEmail}}
