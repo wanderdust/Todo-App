@@ -191,7 +191,7 @@ $(function() {
 		loginTemplate: $('#login-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail', 'newUserError', 'logout', 'logoutSuccesful');
+			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail', 'newUserError', 'logout', 'logoutSuccesful', 'hideErrors');
 
 			this.showLogin = true;
 			this.render();
@@ -250,6 +250,7 @@ $(function() {
 					// Executes the App.
 					this.listView = new ListView();
 					
+					this.hideErrors();
 					console.log(`New user created with e-mail: ${userCurrent.email}`);
 				} else {
 				    console.log('User is not signed in')
@@ -280,11 +281,12 @@ $(function() {
 			// Checks if User is Authenticated to direct client to its data.
 			function logUser(userCurrent) {
 				if (userCurrent) {
+
 					userId = userCurrent.uid;
 
 					// Executes the App.
 					this.listView = new ListView();
-					
+
 					console.log(`User with e-mail: ${userCurrent.email} is loged in.`);
 				} else {
 				    console.log('User is not loged in')
@@ -316,6 +318,8 @@ $(function() {
 			  this.showLogin = true;
 			  this.showLogoutMessage = true;
 			  this.logoutSuccesful();
+			  this.hideErrors();
+
 			  console.log('Logout succesful.')
 			  
 			  this.render();
@@ -329,7 +333,15 @@ $(function() {
 			return setTimeout(function () {
 				that.showLogoutMessage = false;
 				that.render();
-			}, 3000)
+			}, 1000)
+		},
+
+		hideErrors: function() {
+			this.addNewPassword = false;
+			this.addNewPassword = false;
+			this.addNewEmail = false;
+
+			this.render();
 		},
 
 		enterLogin: function(e) {
