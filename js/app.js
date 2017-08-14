@@ -200,7 +200,8 @@ $(function() {
 		events: {
 			'click #button-login': 'loginUser',
 			'click #button-register' : 'newUser',
-			'click #logout': 'logout'
+			'click #logout': 'logout',
+			'keyup ': 'enterLogin',
 		},
 
 		render: function() {
@@ -329,7 +330,28 @@ $(function() {
 				that.showLogoutMessage = false;
 				that.render();
 			}, 3000)
-		}
+		},
+
+		enterLogin: function(e) {
+			const ENTER_KEY = 13;
+			let $userInputEx = $('#existing-email'),
+				$passInputEx = $('#existing-password'),
+				$userInputNew = $('#new-email'),
+				$passInputNew = $('#new-password'),
+				$repeatPassInputNew = $('#repeat-password')
+
+			if(e.which === ENTER_KEY){
+				if($passInputEx.is(':focus') || $userInputEx.is(':focus')){
+					this.loginUser();
+					return;
+				}
+
+				if($userInputNew.is(':focus') || $passInputNew.is(':focus') || $repeatPassInputNew.is(':focus')){
+					this.newUser();
+					return
+				}
+			};
+		},
 
 	});
 
