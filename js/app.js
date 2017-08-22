@@ -332,6 +332,7 @@ $(function() {
 			return setTimeout(function () {
 				that.showLogoutMessage = false;
 				that.render();
+				location.reload();
 			}, 1000)
 		},
 
