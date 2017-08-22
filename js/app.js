@@ -250,7 +250,6 @@ $(function() {
 					// Executes the App.
 					this.listView = new ListView();
 					
-					this.hideErrors();
 					console.log(`New user created with e-mail: ${userCurrent.email}`);
 				} else {
 				    console.log('User is not signed in')
