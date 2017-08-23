@@ -191,8 +191,7 @@ $(function() {
 		loginTemplate: $('#login-template').html(),
 
 		initialize: function() {
-			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail', 'newUserError', 'logout', 'logoutSuccesful', 'hideErrors');
-
+			_.bindAll(this, 'render', 'newUser', 'loginUser', 'render', 'newPassword', 'newEmail', 'newUserError', 'logout');
 			this.showLogin = true;
 			this.render();
 		},
@@ -227,11 +226,9 @@ $(function() {
 
 				}, function(error) {
 					this.newUserError(error);
-					console.log(error.message)
 				}, this);
 			}else {
 				this.newPassword();
-				console.log("Passwords don't match")
 			}
 
 			// Checks if User is Authenticated to create new data and begin with the app.
@@ -244,17 +241,10 @@ $(function() {
 					};
 
 					writeUserData(userCurrent.uid);
-
 					userId = userCurrent.uid;
-
 					// Executes the App.
 					this.listView = new ListView();
-					
-					console.log(`New user created with e-mail: ${userCurrent.email}`);
-				} else {
-				    console.log('User is not signed in')
-				}
-			    
+				}  
 			}
 		},
 
@@ -274,24 +264,16 @@ $(function() {
 			    
 			}, function(error) {
 				this.newEmail(error);
-			    console.log('error trying to log in');
 			}, this);
 			
 			// Checks if User is Authenticated to direct client to its data.
 			function logUser(userCurrent) {
 				if (userCurrent) {
-
 					userId = userCurrent.uid;
-
 					// Executes the App.
 					this.listView = new ListView();
-
-					console.log(`User with e-mail: ${userCurrent.email} is loged in.`);
-				} else {
-				    console.log('User is not loged in')
 				}
 			}
-
 		},
 
 		newUserError(error) {
@@ -314,34 +296,10 @@ $(function() {
 
 		logout: function() {
 			firebase.auth().signOut().then(function() {
-			  this.showLogin = true;
-			  this.showLogoutMessage = true;
-			  this.logoutSuccesful();
-			  this.hideErrors();
-
-			  console.log('Logout succesful.')
-			  
-			  this.render();
+			 location.reload();
 			}, function(error) {
 			  console.log(error.message)
 			}, this);
-		},
-
-		logoutSuccesful: function() {
-			var that = this;
-			return setTimeout(function () {
-				that.showLogoutMessage = false;
-				that.render();
-				location.reload();
-			}, 1000)
-		},
-
-		hideErrors: function() {
-			this.addNewPassword = false;
-			this.addNewPassword = false;
-			this.addNewEmail = false;
-
-			this.render();
 		},
 
 		enterLogin: function(e) {
@@ -350,18 +308,18 @@ $(function() {
 				$passInputEx = $('#existing-password'),
 				$userInputNew = $('#new-email'),
 				$passInputNew = $('#new-password'),
-				$repeatPassInputNew = $('#repeat-password')
+				$repeatPassInputNew = $('#repeat-password');
 
 			if(e.which === ENTER_KEY){
 				if($passInputEx.is(':focus') || $userInputEx.is(':focus')){
 					this.loginUser();
 					return;
-				}
+				};
 
 				if($userInputNew.is(':focus') || $passInputNew.is(':focus') || $repeatPassInputNew.is(':focus')){
 					this.newUser();
-					return
-				}
+					return;
+				};
 			};
 		},
 
